@@ -11,6 +11,7 @@ import { EmployeeComponent } from './employees/employee/employee.component';
 import { EmployeeService } from './shared/employee.service';
 import { DepartmentService } from './shared/department.service';
 import { NotificationService } from './shared/notification.service';
+import { ConfirmDialogService } from './shared/confirm-dialog.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { from } from 'rxjs';
@@ -18,13 +19,15 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { EmployeeListComponent } from './employees/employee-list/employee-list.component';
+import { MatConfirmDialogComponent } from './mat-confirm-dialog/mat-confirm-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmployeesComponent,
     EmployeeComponent,
-    EmployeeListComponent
+    EmployeeListComponent,
+    MatConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -40,8 +43,10 @@ import { EmployeeListComponent } from './employees/employee-list/employee-list.c
     EmployeeService,
     DepartmentService,
     NotificationService,
+    ConfirmDialogService,
     DatePipe,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[EmployeeComponent,MatConfirmDialogComponent]
 })
 export class AppModule { }
