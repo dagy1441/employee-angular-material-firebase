@@ -1,3 +1,9 @@
+<mat-toolbar>
+  <span>{{employeeService.form.controls['$key'].value?"Modify Employee":"New Employee"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+
 <form class="normal-form"
       [formGroup]="employeeService.form"
       (submit)="onSubmit()" >
@@ -37,7 +43,7 @@
         <mat-form-field>
           <mat-select formControlName="department" placeholder="Department">
             <mat-option>None</mat-option>
-            <ng-container *ngFor="let department of departmentService.array">
+            <ng-container *ngFor="let department of departmentService.departments">
               <mat-option value="{{department.$key}}">{{department.code}}-{{department.name}}</mat-option>
             </ng-container>
           </mat-select>

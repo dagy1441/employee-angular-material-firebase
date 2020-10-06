@@ -12,11 +12,10 @@ export class EmployeeService {
 
   employeeList: AngularFireList<any>;
 
-  constructor(
-    private firebase: AngularFireDatabase,
-    ) { }
+  constructor(private firebase: AngularFireDatabase,
+    private datePipe: DatePipe) { }
 
-    form: FormGroup = new FormGroup({
+  form: FormGroup = new FormGroup({
     $key: new FormControl(null),
     fullName: new FormControl('', Validators.required),
     email: new FormControl('', Validators.email),
@@ -42,12 +41,13 @@ export class EmployeeService {
     });
   }
 
-  getEmployee(){
+
+  getEmployees() {
     this.employeeList = this.firebase.list('employees');
     return this.employeeList.snapshotChanges();
   }
 
-  insertEmployee(employee){
+  insertEmployee(employee) {
     this.employeeList.push({
       fullName: employee.fullName,
       email: employee.email,
@@ -55,7 +55,7 @@ export class EmployeeService {
       city: employee.city,
       gender: employee.gender,
       department: employee.department,
-      hireDate: employee.hireDate,
+      hireDate: employee.hireDate == "" ? "" : this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
       isPermanent: employee.isPermanent
     });
   }
@@ -69,7 +69,7 @@ export class EmployeeService {
         city: employee.city,
         gender: employee.gender,
         department: employee.department,
-        hireDate: employee.hireDate,
+        hireDate: employee.hireDate == "" ? "" : this.datePipe.transform(employee.hireDate, 'yyyy-MM-dd'),
         isPermanent: employee.isPermanent
       });
   }
@@ -79,7 +79,7 @@ export class EmployeeService {
   }
 
   populateForm(employee) {
-    this.form.setValue(_.omit(employee,'departmentName'));
+    this.form.setValue(_.omit(employee, 'departmentName'));
   }
 
 }
