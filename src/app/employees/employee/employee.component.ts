@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { DepartmentService } from 'src/app/shared/department.service';
+import { NotificationService } from 'src/app/shared/notification.service';
 import { EmployeeService } from '../../shared/employee.service';
 
 @Component({
@@ -8,15 +10,16 @@ import { EmployeeService } from '../../shared/employee.service';
 })
 export class EmployeeComponent implements OnInit {
 
-  departments = [
-    { id: 1, value: 'Dev' },
-    { id: 2, value: 'Ops' },
-    { id: 3, value: 'DevOps' }
-  ];
 
-  constructor(public employeeService: EmployeeService) { }
+  constructor(
+    public employeeService: EmployeeService,
+    public departmentService: DepartmentService,
+    private notificationService: NotificationService,) {
+
+     }
 
   ngOnInit(): void {
+    this.employeeService.getEmployee();
   }
 
   onClear() {
@@ -24,8 +27,19 @@ export class EmployeeComponent implements OnInit {
     this.employeeService.initializeFormGroup();
   }
 
-  // onCreateForm(){
-  //   this.employeeService.createForm();
-  // }
+  onSubmit(){
+    if( this.employeeService.form.valid){
+      this.employeeService.insertEmployee(this.employeeService.form.value);
+      this.employeeService.form.reset();
+      this.employeeService.initializeFormGroup();
+      this.notificationService.success(':: Submitted successfully');
+      this.onClose();
+    }
+  }
 
+  onClose() {
+    this.employeeService.form.reset();
+    this.employeeService.initializeFormGroup();
+    // this.dialogRef.close();
+  }
 }
